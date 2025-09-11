@@ -4,6 +4,7 @@ from pygame.locals import *
 p.init()
 
 LIGHTBLUE = (70, 130, 180)
+GREEN = (0, 100, 0)
 
 win_width, win_height = 700, 500
 
@@ -45,6 +46,7 @@ racket_right = Player('racket.png', 4, win_width - 50, 0, 50, 150)
 ball = GameSprite('ball.png', 5, win_width / 2, 50, 50, 50)
 
 run = True 
+finish = False
 speed_x = 2
 speed_y = 2
 
@@ -53,22 +55,33 @@ while run:
     for event in events:
         if event.type == p.QUIT:
             run = False
-    window.fill(LIGHTBLUE)
-    ball.draw()
-    ball.rect.x += speed_x
-    ball.rect.y += speed_y
-    if ball.rect.colliderect(racket_right):
-        speed_x *= -1
-    elif ball.rect.y >= win_height - 50:
-        speed_y *= -1
-    elif ball.rect.y <= 0:
-        speed_y *= -1
-    elif ball.rect.colliderect(racket_left):
-        speed_x *= -1
+    if not finish:
+        window.fill(LIGHTBLUE)
+        ball.draw()
+        ball.rect.x += speed_x
+        ball.rect.y += speed_y
         
-    racket_left.draw()
-    racket_right.draw()
-    racket_right.move_right()
-    racket_left.move_left()
+        if ball.rect.colliderect(racket_right):
+            speed_x *= -1
+        elif ball.rect.y >= win_height - 50:
+            speed_y *= -1
+        elif ball.rect.y <= 0:
+            speed_y *= -1
+        elif ball.rect.colliderect(racket_left):
+            speed_x *= -1
+        
+        if ball.rect.x <= 0:
+            win_left = p.font.Font(None, 75).render('SECOND PLAYER WIN!', True, GREEN)
+            window.blit(win_left, (75, 200))
+            finish = True
+        elif ball.rect.x >= win_width:
+            win_right = p.font.Font(None, 75).render('FIRST PLAYER WIN!', True, GREEN)
+            window.blit(win_right, (100, 200))
+            finish = True
+
+        racket_left.draw()
+        racket_right.draw()
+        racket_right.move_right()
+        racket_left.move_left()
     p.display.update()
     timer.tick(60)
