@@ -41,9 +41,9 @@ class Player(GameSprite):
         elif keys_pressed[K_DOWN]:
             self.rect.y += self.speed
 
-racket_left = Player('racket.png', 4, 0, 0, 50, 150)
-racket_right = Player('racket.png', 4, win_width - 50, 0, 50, 150)
-ball = GameSprite('ball.png', 5, win_width / 2, 50, 50, 50)
+racket_left = Player('./images/racket.png', 4, 0, 0, 50, 150)
+racket_right = Player('./images/racket.png', 4, win_width - 50, 0, 50, 150)
+ball = GameSprite('./images/ball.png', 5, win_width / 2, 50, 50, 50)
 
 run = True 
 finish = False
